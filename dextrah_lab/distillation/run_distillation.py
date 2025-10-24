@@ -120,7 +120,8 @@ def main(env_cfg, agent_cfg: dict):
             parent_path,
             agent_cfg_folder,
             # "rl_games_mono_resnet.yaml"
-            "rl_games_ppo_mono_transformer.yaml" # TODO (Mayank): change to gfm
+            # "rl_games_ppo_mono_transformer.yaml"
+            "rl_games_ppo_mono_transformer_gfm.yaml"
             # "rl_games_ppo_lstm_scratch_cnn_aux.yaml"
         )
 
