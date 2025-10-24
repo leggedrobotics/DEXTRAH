@@ -181,6 +181,9 @@ class ResnetDepthEncoder(nn.Module):
     def forward(self, x, train_encoder=True):
         x = x.to(torch.bfloat16)
 
+        # IMPORTANT: This expects normalized input so values should be between 0-1
+        # TODO: Verify if input is in 0-1 range otherwise divide with max_clip depth
+
         # Stack to 3 channels
         if x.shape[1] == 1:
             x = x.repeat(1, 3, 1, 1)
@@ -309,10 +312,14 @@ class Resnet_GFMEncoder(nn.Module):
     def forward(self, x, train_encoder=True):
         depth = x  # [B, H, W, C]
 
-        # Here the depth needs to be metric Depth and not scaled between 0-1
+        # IMPORTANT: This needs to be metric depth input and not scaled between 0-1
+        # TODO: Verify if input is metric depth otherwise multiply with max_clip depth
+
+         
+        depth = depth.permute(0, 3, 1, 2)  # B x C x H x W
+        # TODO: Verify the output shape needs to be BCHW  accordingly comment or uncomment above
 
         # Need to convert to 3 channel
-        depth = depth.permute(0, 3, 1, 2)  # B x C x H x W
         depth = self.resize_transform(depth)
         depth = self.convert_metric_to_three_channel_depth(depth)
 
