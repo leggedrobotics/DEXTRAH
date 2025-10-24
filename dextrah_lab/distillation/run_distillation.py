@@ -74,6 +74,7 @@ from dextrah_lab.distillation.a2c_with_pretrain import A2CBuilder as A2CWithPret
 from dextrah_lab.distillation.a2c_stereo_transformer import A2CBuilder as A2CStereoTransformerBuilder
 from dextrah_lab.distillation.a2c_mono_resnet import A2CBuilder as A2CMonoResnetBuilder
 from dextrah_lab.distillation.a2c_mono_transformer import A2CBuilder as A2CMonoTransformerBuilder
+from dextrah_lab.distillation.a2c_mono_transformer_gfm import A2CBuilder as A2CMonoTransformerGFMBuilder
 
 
 @hydra_task_config(args_cli.task, "rl_games_cfg_entry_point")
@@ -119,7 +120,7 @@ def main(env_cfg, agent_cfg: dict):
             parent_path,
             agent_cfg_folder,
             # "rl_games_mono_resnet.yaml"
-            "rl_games_ppo_mono_transformer.yaml"
+            "rl_games_ppo_mono_transformer.yaml" # TODO (Mayank): change to gfm
             # "rl_games_ppo_lstm_scratch_cnn_aux.yaml"
         )
 
@@ -191,6 +192,7 @@ def main(env_cfg, agent_cfg: dict):
     model_builder.register_network("a2c_stereo_transformer", A2CStereoTransformerBuilder)
     model_builder.register_network("a2c_mono_resnet", A2CMonoResnetBuilder)
     model_builder.register_network("a2c_mono_transformer", A2CMonoTransformerBuilder)
+    model_builder.register_network("a2c_mono_transformer_gfm", A2CMonoTransformerGFMBuilder)
 
     dagger = Dagger(env, dagger_config, summaries_dir=summaries_dir, nn_dir=nn_dir)
     dagger.distill()
